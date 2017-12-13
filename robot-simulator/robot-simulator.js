@@ -65,7 +65,7 @@ Robot.prototype.at = function(x,y){
         return this.coordinates;
     }
     else{
-        throw new Error('Values of x & y must be numerical');
+        throw new Error('Values of coordinates must be numerical');
     }
 }
 
@@ -116,10 +116,10 @@ Robot.prototype.instructions = function(instruction) {
     return instructions;
 }
 
-Robot.prototype.place = function(data) {
-    this.bearing = data.direction;
-    this.coordinates[0] = data.x;
-    this.coordinates[1] = data.y;
+Robot.prototype.place = function(postionData) {
+    this.bearing = postionData.direction;
+    this.coordinates[0] = postionData.x;
+    this.coordinates[1] = postionData.y;
 
 }
 
