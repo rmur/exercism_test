@@ -95,7 +95,7 @@ Robot.prototype.instructions = function(instruction) {
         else if (instruction[i] === 'R'){
             instructions.push('turnRight');
         }
-        else {return 'Incorrect intruction'};
+        else {return 'Incorrect instruction'};
     }
     
 
@@ -104,8 +104,8 @@ Robot.prototype.instructions = function(instruction) {
 
 Robot.prototype.place = function(data) {
     this.bearing = data.direction;
-    this.coordinates.push(data.x);
-    this.coordinates.push(data.y);
+    this.coordinates[0] = data.x;
+    this.coordinates[1] = data.y;
 
 }
 
@@ -113,7 +113,7 @@ Robot.prototype.evaluate = function(setOfInstructions){
     var interpretedCommands = this.instructions(setOfInstructions);   
     for (var j = 0; j < interpretedCommands.length; j++){
         if (interpretedCommands[j] === 'turnRight'){
-            this.turnRight();
+             this.turnRight();
         }
         else if (interpretedCommands[j] === 'turnLeft'){
             this.turnLeft();
