@@ -1,0 +1,128 @@
+var Robot = function() {
+    this.bearing = '';
+    this.coordinates = [];
+    
+};
+
+
+
+Robot.prototype.orient = function(orientation) {
+    var directions = [ 'east', 'west', 'north', 'south' ];
+    for (var i = 0 ; i < directions.length; i++){
+        if(orientation === directions[i]){
+            this.bearing = orientation;
+            return this.bearing;
+        }
+        else { this.bearing = ''}
+    }
+    
+    if (this.bearing != ''){
+        return this.bearing;
+    }
+    else {
+        throw new Error('Invalid Robot Bearing');
+    }   
+    
+};
+
+Robot.prototype.turnRight = function(){
+    switch (this.bearing){
+        case 'north':
+            this.bearing = 'east';
+            break;
+        case 'east':
+            this.bearing = 'south';
+            break;
+        case 'south':
+            this.bearing = 'west';
+            break;
+        case 'west':
+            this.bearing = 'north';
+            break;
+    }
+}
+
+Robot.prototype.turnLeft = function(){
+    switch (this.bearing){
+        case 'north':
+            this.bearing = 'west';
+            break;
+        case 'west':
+            this.bearing = 'south';
+            break;
+        case 'south':
+            this.bearing = 'east';
+            break;
+        case 'east':
+            this.bearing = 'north';
+            break;
+    }
+}
+
+Robot.prototype.at = function(x,y){
+    this.coordinates = [x,y];
+}
+
+Robot.prototype.advance = function(){
+    var position = null;
+    if (this.bearing === 'north' || this.bearing === 'south'){
+        position = 1;
+        
+    }else {
+        position = 0;
+        
+    };
+    if (this.bearing === 'north' || this.bearing === 'east'){
+        this.coordinates[position] ++
+        
+    } else { 
+        this.coordinates[position] --
+        
+    }
+
+}
+
+Robot.prototype.instructions = function(instruction) {
+    instructions = []
+    for(var i = 0; i< instruction.length; i++)
+    { 
+        if (instruction[i] === 'A'){
+            instructions.push('advance');
+        }
+        else if (instruction[i] === 'L') {
+            instructions.push('turnLeft');
+        }
+        else if (instruction[i] === 'R'){
+            instructions.push('turnRight');
+        }
+        else {return 'Incorrect intruction'};
+    }
+    
+
+    return instructions;
+}
+
+Robot.prototype.place = function(data) {
+    this.bearing = data.direction;
+    this.coordinates.push(data.x);
+    this.coordinates.push(data.y);
+
+}
+
+Robot.prototype.evaluate = function(setOfInstructions){
+    var interpretedCommands = this.instructions(setOfInstructions);   
+    for (var j = 0; j < interpretedCommands.length; j++){
+        if (interpretedCommands[j] === 'turnRight'){
+            this.turnRight();
+        }
+        else if (interpretedCommands[j] === 'turnLeft'){
+            this.turnLeft();
+        }
+        else if (interpretedCommands[j] === 'advance'){
+            this.advance();
+        }
+    };
+}
+
+
+module.exports = Robot;
