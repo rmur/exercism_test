@@ -60,7 +60,13 @@ Robot.prototype.turnLeft = function(){
 }
 
 Robot.prototype.at = function(x,y){
-    this.coordinates = [x,y];
+    if (typeof(x && y) === 'number'){
+        this.coordinates = [x,y];
+        return this.coordinates;
+    }
+    else{
+        throw new Error('Values of x & y must be numerical');
+    }
 }
 
 Robot.prototype.advance = function(){
@@ -68,16 +74,22 @@ Robot.prototype.advance = function(){
     if (this.bearing === 'north' || this.bearing === 'south'){
         position = 1;
         
-    }else {
+    }else if (this.bearing === 'east' || this.bearing === 'west') {
         position = 0;
         
-    };
+    } 
+    else {return 'Bearing is not recognised!'} 
+
     if (this.bearing === 'north' || this.bearing === 'east'){
-        this.coordinates[position] ++
+        this.coordinates[position] ++;
         
-    } else { 
-        this.coordinates[position] --
+    } 
+    else if(this.bearing === 'south' || this.bearing === 'west'){
+        this.coordinates[position] --;
         
+    } 
+    else {
+        throw new Error('Movement is impossible, position is not set or is set to incorrect value!');
     }
 
 }
@@ -95,7 +107,9 @@ Robot.prototype.instructions = function(instruction) {
         else if (instruction[i] === 'R'){
             instructions.push('turnRight');
         }
-        else {return 'Incorrect instruction'};
+        else {
+            throw new Error('Incorrect instruction')
+        };
     }
     
 
